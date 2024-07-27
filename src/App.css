@@ -1,0 +1,34 @@
+body {
+  width: 100%;
+  min-height: 100vh;
+  background: #f0ece7;
+}
+
+.navbar {
+  background-color: #1f1c1a;
+  width: 100%;
+}
+
+.sidebarBg {
+  background-color: #1f1c1a;
+}
+
+.tabNotCurrent {
+  background-color: #b2c0cb;
+}
+
+.classes {
+  background-color: #726a64;
+}
+
+.card-display {
+  height: 20vh;
+}
+
+.submitBtn {
+  background-color: #1f1c1a;
+}
+
+.submitBtn:hover {
+  background-color: #b2c0cb;
+}
