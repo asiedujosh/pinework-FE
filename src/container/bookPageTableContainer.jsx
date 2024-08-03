@@ -4,7 +4,7 @@ import SearchContainer from "./searchContainer"
 import { BookPageApiData } from "../contextApi/bookPage/bookPageContextApi"
 import BookPageTable from "../component/bookPageTable"
 
-const BookPageTableContainer = ({bookId}) => {
+const BookPageTableContainer = ({ bookId }) => {
   const { processGetBookPage, paginationData, processSearchBookPage } =
     useContext(BookPageApiData)
   const [searchTerm, setSearchTerm] = useState("")
@@ -14,7 +14,7 @@ const BookPageTableContainer = ({bookId}) => {
   }
 
   const handleSearchSubmit = () => {
-    processSearchBookPage(searchTerm)
+    processSearchBookPage(searchTerm, bookId)
   }
 
   return (
@@ -32,7 +32,7 @@ const BookPageTableContainer = ({bookId}) => {
         }}
       />
       <div className="overflow-auto" style={{ height: "80%" }}>
-        <BookPageTable bookId = {bookId} />
+        <BookPageTable bookId={bookId} />
       </div>
       <PaginationContainer
         paginationData={paginationData}

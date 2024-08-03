@@ -3,10 +3,13 @@ import DashItemCard from "../component/dashItemCard"
 import RenderBarChart from "../component/barChart"
 import { useNavigate } from "react-router-dom"
 import { AuthorApiData } from "../contextApi/author/authorContextApi"
+import { CreationApiData } from "../contextApi/creation/creationContextApi"
 import SubmitBtn from "../component/submitBtn"
 
 const AuthorHome = () => {
   const { authorInfo } = useContext(AuthorApiData)
+  const { noOfBooksPublished, noOfBooksNotPublished } =
+    useContext(CreationApiData)
   const navigate = useNavigate()
 
   const goToCreateBook = () => {
@@ -20,10 +23,20 @@ const AuthorHome = () => {
       </div>
       <div className="flex mt-2">
         <div className="w-1/4 mx-2">
-          <DashItemCard title={"Books"} link={"authorBooks"} qty={"12"} />
+          <DashItemCard
+            title={"Books"}
+            subTitle={"Incomplete"}
+            link={"authorBooks"}
+            qty={noOfBooksNotPublished}
+          />
         </div>
         <div className="w-1/4 mx-2">
-          <DashItemCard title={"Publish"} link={"liveBooks"} qty={"12"} />
+          <DashItemCard
+            title={"Published"}
+            subTitle={"Complete"}
+            link={"liveBooks"}
+            qty={noOfBooksPublished}
+          />
         </div>
         <div className="w-1/4 mx-2">
           <DashItemCard title={"Subscribers"} link={"liveBooks"} qty={"12"} />

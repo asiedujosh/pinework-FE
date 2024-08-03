@@ -34,14 +34,48 @@ export const searchBook = async (data) => {
   }
 }
 
-export const searchAuthorBook = async (data) => {
+export const searchAuthorBook = async (data, id) => {
   try {
     let responseOnSearchAuthorBook = await axios.get(
-      `/api/searchAuthorBook?keyword=${data}&authorId=${data.authorId}`
+      `/api/searchAuthorBook?keyword=${data}&authorId=${id}`
     )
     if (responseOnSearchAuthorBook) {
       if (responseOnSearchAuthorBook.status === SUCCESS_STATUS) {
         return responseOnSearchAuthorBook.data
+      }
+    } else {
+      return false
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const countBooksNotPublishedByAuthor = async (id) => {
+  try {
+    let responseOnCountBooksNoPublished = await axios.get(
+      `/api/countBooksNotPublishedByAuthor/${id}`
+    )
+    if (responseOnCountBooksNoPublished) {
+      if (responseOnCountBooksNoPublished.status === SUCCESS_STATUS) {
+        return responseOnCountBooksNoPublished.data
+      }
+    } else {
+      return false
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const countBooksPublishedByAuthor = async (id) => {
+  try {
+    let responseOnCountBooksNoPublished = await axios.get(
+      `/api/countBooksPublishedByAuthor/${id}`
+    )
+    if (responseOnCountBooksNoPublished) {
+      if (responseOnCountBooksNoPublished.status === SUCCESS_STATUS) {
+        return responseOnCountBooksNoPublished.data
       }
     } else {
       return false
@@ -102,10 +136,10 @@ export const editBook = async (data) => {
   }
 }
 
-export const changeBookStatus = async (data) => {
+export const changeBookStatus = async (id, data) => {
   try {
     let responseOnEditBookStatus = await axios.put(
-      `/api/updateBookStatus/${data.id}`,
+      `/api/updateBookStatus/${id}`,
       data
     )
     if (responseOnEditBookStatus) {
@@ -121,10 +155,8 @@ export const changeBookStatus = async (data) => {
 }
 
 export const deleteBook = async (data) => {
-  // console.log(data)
   try {
-    let responseOnDeleteBook = await axios.delete(`/api/deleteBook/${data.id}`)
-
+    let responseOnDeleteBook = await axios.delete(`/api/deleteBook/${data}`)
     if (responseOnDeleteBook) {
       if (responseOnDeleteBook.status === SUCCESS_STATUS) {
         return responseOnDeleteBook.data

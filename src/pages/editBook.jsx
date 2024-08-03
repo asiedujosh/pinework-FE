@@ -1,10 +1,11 @@
 import { useState, useContext, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { ADDBOOK } from "../constant/books"
 import InputField from "../component/inputField"
 import SelectField from "../component/selectField"
 import UploadImage from "../component/uploadImage"
 import SubmitBtn from "../component/submitBtn"
+import idToBookType from "../utils/idToBookType"
 import bookTypeToId from "../utils/bookTypeToId"
 import classToId from "../utils/classToId"
 import { AuthApiData } from "../contextApi/auth/authContextApi"
@@ -15,19 +16,23 @@ import CurtainPrompt from "../component/curtainPrompt"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-const CreateBook = () => {
+const EditBook = () => {
+  const { id } = useParams()
   const { userProfile } = useContext(AuthApiData)
   const { processGetAllBookType, bookTypeOptions, allBookTypeList } =
     useContext(BookTypeApiData)
   const { processGetAllClasses, classOptions, allClassesList } =
     useContext(ClassesApiData)
-  const { processAddBook, prompt, setPrompt } = useContext(CreationApiData)
+  const { processUpdateBook, prompt, bookToEdit } = useContext(CreationApiData)
   const [formData, setFormData] = useState({
-    bookTypeId: null,
-    classId: null,
+    bookName: bookToEdit.bookName,
+    bookTypeId: idToBookType(allBookTypeList, bookToEdit.bookType),
+    classId: bookToEdit.class,
+    description: bookToEdit.description,
+    imageUpload: bookToEdit.coverImage,
   })
 
-  const navigate = useNavigate()
+  //console.log(allBookTypeList)
 
   useEffect(() => {
     processGetAllBookType()
@@ -35,7 +40,6 @@ const CreateBook = () => {
 
     setFormData({
       ...formData,
-      bookTypeId: bookTypeOptions[0],
       classId: classOptions[0],
     })
   }, [])
@@ -47,31 +51,25 @@ const CreateBook = () => {
     })
   }
 
-  const goToAddPage = () => {
-    navigate("/authorDashboard")
-  }
-
-  const addToNoPage = () => {
-    setPrompt(false)
-  }
-
   const handleSubmit = async () => {
-    let newData = {
-      authorId: userProfile.id,
+    let newEditData = {
+      id: id,
       bookName: formData.bookName,
       bookType: formData.bookType || formData.bookTypeId,
       classId: formData.targetClass || formData.classId,
       description: formData.description,
-      coverImage: formData.imageUpload,
+      imageUpload: formData.imageUpload || formData.image,
     }
 
-    let bookTypeId = bookTypeToId(allBookTypeList, newData.bookType)
-    let classId = classToId(allClassesList, newData.classId)
+    let bookTypeId = bookTypeToId(allBookTypeList, newEditData.bookType)
+    let classId = classToId(allClassesList, newEditData.classId)
 
-    newData.bookType = bookTypeId
-    newData.classId = classId
+    newEditData.bookType = bookTypeId
+    newEditData.classId = classId
 
-    processAddBook(newData)
+    processUpdateBook(newEditData)
+
+    //processAddBook(newEditData)
   }
 
   return (
@@ -80,7 +78,7 @@ const CreateBook = () => {
         <div className="w-90 m-6 md:mt-4 p-4 bg-white rounded shadow-lg">
           <div className="flex justify-center align-items mt-4">
             <h2 className="text-gray-600 text-xl font-semibold">
-              {ADDBOOK.title}
+              {"Edit Book"}
             </h2>
           </div>
           <hr class="border-t border-gray-300 w-1/2 mx-auto my-2" />
@@ -120,6 +118,7 @@ const CreateBook = () => {
                 </div>
                 <div className="mt-4">
                   <UploadImage
+                    imagePreview={formData.imageUpload || formData.image}
                     change={(data, field) => {
                       handleInputChange(data, field)
                     }}
@@ -141,11 +140,10 @@ const CreateBook = () => {
             "Congratulations on adding a book, start adding a page to your books"
           }
           yesFunction={goToAddPage}
-          noFunction={addToNoPage}
         />
       )}
     </>
   )
 }
 
-export default CreateBook
+export default EditBook

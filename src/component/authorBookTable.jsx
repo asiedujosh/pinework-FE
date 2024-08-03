@@ -1,16 +1,57 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { BOOKTABLE } from "../constant/books"
+import { AuthorApiData } from "../contextApi/author/authorContextApi"
 import { CreationApiData } from "../contextApi/creation/creationContextApi"
 import { ClassesApiData } from "../contextApi/classes/classesContextApi"
 import { BookTypeApiData } from "../contextApi/bookType/bookTypeContextApi"
-import bookToId from "../utils/bookToId"
-import classToId from "../utils/classToId"
-import { Link } from "react-router-dom"
+import { PUBLISH } from "../constant/statusConstant"
+import CurtainPrompt from "./curtainPrompt"
+import { ToastContainer } from "react-toastify"
+import idToBookType from "../utils/idToBookType"
+import idToClass from "../utils/idToClass"
+import { Link, useNavigate } from "react-router-dom"
 
 const AuthorBookTable = () => {
-  const { authorBookList, searchAuthorBookRecord } = useContext(CreationApiData)
+  const {
+    authorBookList,
+    searchAuthorBookRecord,
+    processAuthorBookToEdit,
+    processDeleteBook,
+    processGetAuthorBooks,
+    bookPrompt,
+    setBookPrompt,
+    processPublish,
+  } = useContext(CreationApiData)
+  const { authorInfo } = useContext(AuthorApiData)
   const { allClassesList } = useContext(ClassesApiData)
   const { allBookTypeList } = useContext(BookTypeApiData)
+  const [deleteId, setDeleteId] = useState()
+
+  const navigate = useNavigate()
+
+  const handleEditBook = (id) => {
+    processAuthorBookToEdit(id)
+    navigate(`/authorDashboard/editBook/${id}/edit`)
+  }
+
+  const handlePublish = (id) => {
+    processPublish(id, { status: PUBLISH })
+    processGetAuthorBooks("", authorInfo.userId)
+  }
+
+  const proceedSubmit = () => {
+    processDeleteBook(deleteId)
+    setBookPrompt(false)
+  }
+
+  const dontProceedSubmit = () => {
+    setBookPrompt(false)
+  }
+
+  const handleDeleteBook = (id) => {
+    setDeleteId(id)
+    setBookPrompt(true)
+  }
 
   return (
     <>
@@ -33,41 +74,51 @@ const AuthorBookTable = () => {
                     {item.bookName}
                   </td>
                   <td className="border border-gray-200 py-4 px-2">
-                    {bookToId(allBookTypeList, item.bookType)}
+                    {idToBookType(allBookTypeList, item.bookType)}
                   </td>
                   <td className="border border-gray-200 py-4 px-2">
-                    {classToId(allClassesList, item.class)}
+                    {idToClass(allClassesList, item.class)}
                   </td>
                   <td className="border border-gray-200 py-4 px-2">
                     {item.status}
                   </td>
                   <td className="border border-gray-200 py-4 px-2">
-                    <div className="flex space-x-2">
-                      <Link
-                        to={`/authorDashboard/page/${item.id}/edit/${item.bookName}`}
-                        className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 rounded"
-                      >
-                        View
-                      </Link>
-                      <Link
-                        to={`/dashboard/pages/${item.contact}/edit`}
-                        className="bg-yellow-500 hover:bg-yellow-400 text-white font-semibold py-2 px-4 rounded"
-                      >
-                        Edit
-                      </Link>
-                      <Link
-                        to={`/dashboard/pages/${item.contact}/edit`}
-                        className="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded"
-                      >
-                        Delete
-                      </Link>
-                      <Link
-                        to={`/authorDashboard/page/${item.id}/edit/${item.bookName}`}
-                        className="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded"
-                      >
-                        Publish
-                      </Link>
-                    </div>
+                    {item.status === PUBLISH ? (
+                      <span>Not available for edit</span>
+                    ) : (
+                      <div className="flex space-x-2">
+                        <Link
+                          to={`/authorDashboard/page/${item.id}/edit/${item.bookName}`}
+                          className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
+                        >
+                          View
+                        </Link>
+                        <span
+                          onClick={() => {
+                            handleEditBook(item.id)
+                          }}
+                          className="bg-yellow-500 hover:bg-yellow-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
+                        >
+                          Edit
+                        </span>
+                        <span
+                          onClick={() => {
+                            handleDeleteBook(item.id)
+                          }}
+                          className="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
+                        >
+                          Delete
+                        </span>
+                        <span
+                          onClick={() => {
+                            handlePublish(item.id)
+                          }}
+                          className="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
+                        >
+                          Publish
+                        </span>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))
@@ -77,46 +128,66 @@ const AuthorBookTable = () => {
                     {item.bookName}
                   </td>
                   <td className="border border-gray-200 py-4 px-2">
-                    {bookToId(allBookTypeList, item.bookType)}
+                    {idToBookType(allBookTypeList, item.bookType)}
                   </td>
                   <td className="border border-gray-200 py-4 px-2">
-                    {classToId(allClassesList, item.class)}
+                    {idToClass(allClassesList, item.class)}
                   </td>
                   <td className="border border-gray-200 py-4 px-2">
                     {item.status}
                   </td>
                   <td className="border border-gray-200 py-4 px-2">
-                    <div className="flex space-x-2">
-                      <Link
-                        to={`/authorDashboard/page/${item.id}/edit/${item.bookName}`}
-                        className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 rounded"
-                      >
-                        View
-                      </Link>
-                      <Link
-                        to={`/dashboard/pages/${item.contact}/edit`}
-                        className="bg-yellow-500 hover:bg-yellow-400 text-white font-semibold py-2 px-4 rounded"
-                      >
-                        Edit
-                      </Link>
-                      <Link
-                        to={`/dashboard/pages/${item.contact}/edit`}
-                        className="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded"
-                      >
-                        Delete
-                      </Link>
-                      <Link
-                        to={`/authorDashboard/page/${item.id}/edit/${item.bookName}`}
-                        className="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded"
-                      >
-                        Publish
-                      </Link>
-                    </div>
+                    {item.status === PUBLISH ? (
+                      <span>Not available for edit</span>
+                    ) : (
+                      <div className="flex space-x-2">
+                        <Link
+                          to={`/authorDashboard/page/${item.id}/edit/${item.bookName}`}
+                          className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
+                        >
+                          View
+                        </Link>
+                        <span
+                          onClick={() => {
+                            handleEditBook(item.id)
+                          }}
+                          className="bg-yellow-500 hover:bg-yellow-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
+                        >
+                          Edit
+                        </span>
+                        <span
+                          onClick={() => {
+                            handleDeleteBook(item.id)
+                          }}
+                          className="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
+                        >
+                          Delete
+                        </span>
+                        <span
+                          onClick={() => {
+                            handlePublish(item.id)
+                          }}
+                          className="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
+                        >
+                          Publish
+                        </span>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
         </tbody>
       </table>
+      <ToastContainer />
+      {bookPrompt && (
+        <CurtainPrompt
+          promptTitle={
+            "By deleting the book, all related pages and questions will be deleted"
+          }
+          yesFunction={proceedSubmit}
+          noFunction={dontProceedSubmit}
+        />
+      )}
     </>
   )
 }

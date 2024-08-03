@@ -36,8 +36,8 @@ const BookPageApiDataProvider = (props) => {
     }
   }
 
-  const processSearchBookPage = async (data) => {
-    let response = await searchPage(data)
+  const processSearchBookPage = async (data, id) => {
+    let response = await searchPage(data, id)
     if (response) {
       setSearchBookPage(response.data.data)
       setSearchPaginationData(response.data.pagination)

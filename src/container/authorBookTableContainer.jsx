@@ -1,11 +1,13 @@
 import { useContext, useEffect, useState } from "react"
 import PaginationContainer from "./paginationContainer"
+import { AuthApiData } from "../contextApi/auth/authContextApi"
 import { CreationApiData } from "../contextApi/creation/creationContextApi"
 import SearchContainer from "./searchContainer"
 import AuthorBookTable from "../component/authorBookTable"
 
 const AuthorBookTableContainer = () => {
-  const { processGetAuthorBooks, paginationData, processSearchBook } =
+  const { userProfile } = useContext(AuthApiData)
+  const { processGetAuthorBooks, paginationData, processSearchAuthorBook } =
     useContext(CreationApiData)
   const [searchTerm, setSearchTerm] = useState("")
 
@@ -14,7 +16,7 @@ const AuthorBookTableContainer = () => {
   }
 
   const handleSearchSubmit = () => {
-    processSearchBook(searchTerm)
+    processSearchAuthorBook(searchTerm, userProfile.id)
   }
 
   return (

@@ -16,6 +16,7 @@ const StudentDashboard = React.lazy(() => import("./pages/studentDashboard"))
 const AdminDashboard = React.lazy(() => import("./pages/adminDashboard"))
 const AdminHome = React.lazy(() => import("./pages/adminHome"))
 const StudentHome = React.lazy(() => import("./pages/studentHome"))
+const EditBook = React.lazy(() => import("./pages/editBook"))
 const AuthorHome = React.lazy(() => import("./pages/authorHome"))
 const AuthorBooks = React.lazy(() => import("./pages/authorBooks"))
 const CreateBook = React.lazy(() => import("./pages/createBook"))
@@ -150,6 +151,14 @@ function App() {
             element={
               <React.Suspense fallback={<div>Loading...</div>}>
                 <AuthorBooks />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="editBook/:id/edit"
+            element={
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <EditBook />
               </React.Suspense>
             }
           />
