@@ -4,11 +4,13 @@ import { BAD_REQUEST_STATUS, SUCCESS_STATUS } from "../../constant/constant"
 import {
   addBook,
   searchBook,
+  searchAuthorPublish,
   searchAuthorBook,
   countBooksNotPublishedByAuthor,
   countBooksPublishedByAuthor,
   getBook,
   getAuthorBooks,
+  getAuthorPublish,
   editBook,
   changeBookStatus,
   deleteBook,
@@ -21,12 +23,14 @@ const CreationApiDataProvider = (props) => {
   const [noOfBooksNotPublished, setNoOfBooksNotPublished] = useState(0)
   const [noOfBooksPublished, setNoOfBooksPublished] = useState(0)
   const [authorBookList, setAuthorBookList] = useState([])
+  const [authorPublishList, setAuthorPublishList] = useState([])
   const [bookToEdit, setBookToEdit] = useState()
   const [bookPrompt, setBookPrompt] = useState(false)
   const [prompt, setPrompt] = useState(false)
   const [paginationData, setPaginationData] = useState()
   const [searchBookRecord, setSearchBookRecord] = useState([])
   const [searchAuthorBookRecord, setSearchAuthorBookRecord] = useState([])
+  const [searchAuthorPublishRecord, setSearchAuthorPublishRecord] = useState([])
   const [searchPaginationData, setSearchPaginationData] = useState(null)
 
   const processGetBook = async (data) => {
@@ -59,6 +63,14 @@ const CreationApiDataProvider = (props) => {
     }
   }
 
+  const processGetAuthorPublish = async (data, authorId) => {
+    let response = await getAuthorPublish(data || 1, authorId)
+    if (response) {
+      setAuthorPublishList(response.data.data.data)
+      setPaginationData(response.data.pagination)
+    }
+  }
+
   const processAuthorBookToEdit = async (id) => {
     let authorBookToEdit = authorBookList.filter((item) => item.id == id)[0]
     setBookToEdit(authorBookToEdit)
@@ -77,6 +89,14 @@ const CreationApiDataProvider = (props) => {
     if (responseOnSearchAuthorBook) {
       setSearchAuthorBookRecord(responseOnSearchAuthorBook.data.data)
       setSearchPaginationData(responseOnSearchAuthorBook.data.pagination)
+    }
+  }
+
+  const processSearchAuthorPublish = async (data, id) => {
+    let responseOnSearchAuthorPublish = await searchAuthorPublish(data, id)
+    if (responseOnSearchAuthorPublish) {
+      setSearchAuthorPublishRecord(responseOnSearchAuthorPublish.data.data)
+      setSearchPaginationData(responseOnSearchAuthorPublish.data.pagination)
     }
   }
 
@@ -131,20 +151,24 @@ const CreationApiDataProvider = (props) => {
         bookPrompt,
         setBookPrompt,
         authorBookList,
+        authorPublishList,
         noOfBooksNotPublished,
         noOfBooksPublished,
         bookToEdit,
         processAddBook,
         processGetBook,
         processGetAuthorBooks,
+        processGetAuthorPublish,
         processSearchBook,
         processSearchAuthorBook,
         processPublish,
+        processSearchAuthorPublish,
         processAuthorBookToEdit,
         processCountBooksNotPublished,
         processCountBooksPublished,
         searchBookRecord,
         searchAuthorBookRecord,
+        searchAuthorPublishRecord,
         searchPaginationData,
         processUpdateBook,
         processDeleteBook,

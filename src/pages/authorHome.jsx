@@ -34,7 +34,7 @@ const AuthorHome = () => {
           <DashItemCard
             title={"Published"}
             subTitle={"Complete"}
-            link={"liveBooks"}
+            link={"authorPublish"}
             qty={noOfBooksPublished}
           />
         </div>

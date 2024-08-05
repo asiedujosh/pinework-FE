@@ -5,7 +5,7 @@ import CurtainPrompt from "./curtainPrompt"
 import { ToastContainer } from "react-toastify"
 import { Link } from "react-router-dom"
 
-const BookPageTable = () => {
+const BookPageTable = ({ status }) => {
   const {
     bookPages,
     searchBookPage,
@@ -55,31 +55,35 @@ const BookPageTable = () => {
                   <td className="border border-gray-200 py-4 px-2">
                     <div className="flex space-x-2">
                       <Link
-                        to={`/authorDashboard/questions/book/${item.bookId}/page/${item.id}`}
+                        to={`/authorDashboard/questions/book/${item.bookId}/page/${item.id}/status/${status}`}
                         className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 rounded"
                       >
                         View
                       </Link>
-                      <Link
-                        to={`/authorDashboard/createQuestion/${item.bookId}/page/${item.id}/author/${item.authorId}`}
-                        className="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded"
-                      >
-                        Add Question
-                      </Link>
-                      <Link
-                        to={`/authorDashboard/editPage/${item.id}/edit`}
-                        className="bg-yellow-500 hover:bg-yellow-400 text-white font-semibold py-2 px-4 rounded"
-                      >
-                        Edit
-                      </Link>
-                      <div
-                        onClick={() => {
-                          handleDeletePage(item.id)
-                        }}
-                        className="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
-                      >
-                        Delete
-                      </div>
+                      {status == "false" && (
+                        <>
+                          <Link
+                            to={`/authorDashboard/createQuestion/${item.bookId}/page/${item.id}/author/${item.authorId}`}
+                            className="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded"
+                          >
+                            Add Question
+                          </Link>
+                          <Link
+                            to={`/authorDashboard/editPage/${item.id}/edit`}
+                            className="bg-yellow-500 hover:bg-yellow-400 text-white font-semibold py-2 px-4 rounded"
+                          >
+                            Edit
+                          </Link>
+                          <div
+                            onClick={() => {
+                              handleDeletePage(item.id)
+                            }}
+                            className="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
+                          >
+                            Delete
+                          </div>
+                        </>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -95,31 +99,35 @@ const BookPageTable = () => {
                   <td className="border border-gray-200 py-4 px-2">
                     <div className="flex space-x-2">
                       <Link
-                        to={`/authorDashboard/questions/book/${item.bookId}/page/${item.id}`}
+                        to={`/authorDashboard/questions/book/${item.bookId}/page/${item.id}/status/${status}`}
                         className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 rounded"
                       >
                         View
                       </Link>
-                      <Link
-                        to={`/authorDashboard/createQuestion/${item.bookId}/page/${item.id}/author/${item.authorId}`}
-                        className="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded"
-                      >
-                        Add Question
-                      </Link>
-                      <Link
-                        to={`/authorDashboard/editPage/${item.id}/edit`}
-                        className="bg-yellow-500 hover:bg-yellow-400 text-white font-semibold py-2 px-4 rounded"
-                      >
-                        Edit
-                      </Link>
-                      <div
-                        onClick={() => {
-                          handleDeletePage(item.id)
-                        }}
-                        className="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
-                      >
-                        Delete
-                      </div>
+                      {status == "false" && (
+                        <>
+                          <Link
+                            to={`/authorDashboard/createQuestion/${item.bookId}/page/${item.id}/author/${item.authorId}`}
+                            className="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded"
+                          >
+                            Add Question
+                          </Link>
+                          <Link
+                            to={`/authorDashboard/editPage/${item.id}/edit`}
+                            className="bg-yellow-500 hover:bg-yellow-400 text-white font-semibold py-2 px-4 rounded"
+                          >
+                            Edit
+                          </Link>
+                          <div
+                            onClick={() => {
+                              handleDeletePage(item.id)
+                            }}
+                            className="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
+                          >
+                            Delete
+                          </div>
+                        </>
+                      )}
                     </div>
                   </td>
                 </tr>

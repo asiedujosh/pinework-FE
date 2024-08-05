@@ -1,12 +1,17 @@
 import { useContext, useEffect, useState } from "react"
 import PaginationContainer from "./paginationContainer"
+import { AuthApiData } from "../contextApi/auth/authContextApi"
+import { CreationApiData } from "../contextApi/creation/creationContextApi"
 import SearchContainer from "./searchContainer"
-import { BookPageApiData } from "../contextApi/bookPage/bookPageContextApi"
-import BookPageTable from "../component/bookPageTable"
+import AuthorPublishTable from "../component/authorPublishTable"
 
-const BookPageTableContainer = ({ bookId, status }) => {
-  const { processGetBookPage, paginationData, processSearchBookPage } =
-    useContext(BookPageApiData)
+const AuthorPublishTableContainer = () => {
+  const { userProfile } = useContext(AuthApiData)
+  const {
+    processGetAuthorPublish,
+    paginationData,
+    processSearchAuthorPublish,
+  } = useContext(CreationApiData)
   const [searchTerm, setSearchTerm] = useState("")
 
   const handleSearchChange = (data) => {
@@ -14,7 +19,7 @@ const BookPageTableContainer = ({ bookId, status }) => {
   }
 
   const handleSearchSubmit = () => {
-    processSearchBookPage(searchTerm, bookId)
+    processSearchAuthorPublish(searchTerm, userProfile.id)
   }
 
   return (
@@ -32,14 +37,14 @@ const BookPageTableContainer = ({ bookId, status }) => {
         }}
       />
       <div className="overflow-auto" style={{ height: "80%" }}>
-        <BookPageTable bookId={bookId} status={status} />
+        <AuthorPublishTable />
       </div>
       <PaginationContainer
         paginationData={paginationData}
-        paginationFunction={processGetBookPage}
+        paginationFunction={processGetAuthorPublish}
       />
     </div>
   )
 }
 
-export default BookPageTableContainer
+export default AuthorPublishTableContainer

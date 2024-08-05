@@ -14,7 +14,7 @@ const Questions = () => {
     selectedQuestion,
     setSelectedQuestion,
   } = useContext(QuestionApiData)
-  const { bookId, pageId } = useParams()
+  const { bookId, pageId, status } = useParams()
 
   const navigate = useNavigate()
 
@@ -61,26 +61,28 @@ const Questions = () => {
                   Question {selectedQuestion}
                 </h1>
               </div>
-              <div className="w-1/4 flex space-x-2">
-                <SubmitBtn
-                  text={"Edit"}
-                  submit={() => {
-                    submitToEdit(selectedQuestion)
-                  }}
-                  color={"bg-yellow-500 hover:bg-yellow-400"}
-                />
-                <SubmitBtn
-                  text={"Delete"}
-                  submit={() => {
-                    deleteQuestion(
-                      questions.filter(
-                        (item) => item.questionNo == selectedQuestion
-                      )[0].id
-                    )
-                  }}
-                  color={"bg-red-500 hover:bg-red-400"}
-                />
-              </div>
+              {status !== "true" && (
+                <div className="w-1/4 flex space-x-2">
+                  <SubmitBtn
+                    text={"Edit"}
+                    submit={() => {
+                      submitToEdit(selectedQuestion)
+                    }}
+                    color={"bg-yellow-500 hover:bg-yellow-400"}
+                  />
+                  <SubmitBtn
+                    text={"Delete"}
+                    submit={() => {
+                      deleteQuestion(
+                        questions.filter(
+                          (item) => item.questionNo == selectedQuestion
+                        )[0].id
+                      )
+                    }}
+                    color={"bg-red-500 hover:bg-red-400"}
+                  />
+                </div>
+              )}
             </div>
             <p>
               {/* Rendering out question */}

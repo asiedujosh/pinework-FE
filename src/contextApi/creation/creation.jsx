@@ -51,6 +51,23 @@ export const searchAuthorBook = async (data, id) => {
   }
 }
 
+export const searchAuthorPublish = async (data, id) => {
+  try {
+    let responseOnSearchAuthorPublish = await axios.get(
+      `/api/searchAuthorPublish?keyword=${data}&authorId=${id}`
+    )
+    if (responseOnSearchAuthorPublish) {
+      if (responseOnSearchAuthorPublish.status === SUCCESS_STATUS) {
+        return responseOnSearchAuthorPublish.data
+      }
+    } else {
+      return false
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 export const countBooksNotPublishedByAuthor = async (id) => {
   try {
     let responseOnCountBooksNoPublished = await axios.get(
@@ -111,6 +128,24 @@ export const getAuthorBooks = async (data, authorId) => {
     if (responseOnGetAuthorBook) {
       if (responseOnGetAuthorBook.status === SUCCESS_STATUS) {
         return responseOnGetAuthorBook.data
+      }
+    } else {
+      return false
+    }
+  } catch (err) {
+    console.log(err)
+    return false
+  }
+}
+
+export const getAuthorPublish = async (data, authorId) => {
+  try {
+    let responseOnGetPublishBook = await axios.get(
+      `/api/getAuthorPublish?page=${data}&perPage=${LISTONPAGES}&authorId=${authorId}`
+    )
+    if (responseOnGetPublishBook) {
+      if (responseOnGetPublishBook.status === SUCCESS_STATUS) {
+        return responseOnGetPublishBook.data
       }
     } else {
       return false

@@ -19,6 +19,7 @@ const StudentHome = React.lazy(() => import("./pages/studentHome"))
 const EditBook = React.lazy(() => import("./pages/editBook"))
 const AuthorHome = React.lazy(() => import("./pages/authorHome"))
 const AuthorBooks = React.lazy(() => import("./pages/authorBooks"))
+const AuthorPublish = React.lazy(() => import("./pages/authorPublishBook"))
 const CreateBook = React.lazy(() => import("./pages/createBook"))
 const CreateQuestion = React.lazy(() => import("./pages/createQuestion"))
 const CreateBookType = React.lazy(() => import("./pages/createBookType"))
@@ -91,7 +92,7 @@ function App() {
             }
           />
           <Route
-            path="page/:id/edit/:book"
+            path="page/:id/edit/:book/publish/:status"
             element={
               <React.Suspense fallback={<div>Loading...</div>}>
                 <BookPage />
@@ -115,7 +116,7 @@ function App() {
             }
           />
           <Route
-            path="questions/book/:bookId/page/:pageId"
+            path="questions/book/:bookId/page/:pageId/status/:status"
             element={
               <React.Suspense fallback={<div>Loading...</div>}>
                 <Question />
@@ -151,6 +152,14 @@ function App() {
             element={
               <React.Suspense fallback={<div>Loading...</div>}>
                 <AuthorBooks />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="authorPublish"
+            element={
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <AuthorPublish />
               </React.Suspense>
             }
           />

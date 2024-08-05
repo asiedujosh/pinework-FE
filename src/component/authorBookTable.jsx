@@ -4,7 +4,7 @@ import { AuthorApiData } from "../contextApi/author/authorContextApi"
 import { CreationApiData } from "../contextApi/creation/creationContextApi"
 import { ClassesApiData } from "../contextApi/classes/classesContextApi"
 import { BookTypeApiData } from "../contextApi/bookType/bookTypeContextApi"
-import { PUBLISH } from "../constant/statusConstant"
+import { PUBLISH, LIVE } from "../constant/statusConstant"
 import CurtainPrompt from "./curtainPrompt"
 import { ToastContainer } from "react-toastify"
 import idToBookType from "../utils/idToBookType"
@@ -88,7 +88,9 @@ const AuthorBookTable = () => {
                     ) : (
                       <div className="flex space-x-2">
                         <Link
-                          to={`/authorDashboard/page/${item.id}/edit/${item.bookName}`}
+                          to={`/authorDashboard/page/${item.id}/edit/${
+                            item.bookName
+                          }/publish/${item.status !== LIVE ? "false" : "true"}`}
                           className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
                         >
                           View
@@ -142,7 +144,9 @@ const AuthorBookTable = () => {
                     ) : (
                       <div className="flex space-x-2">
                         <Link
-                          to={`/authorDashboard/page/${item.id}/edit/${item.bookName}`}
+                          to={`/authorDashboard/page/${item.id}/edit/${
+                            item.bookName
+                          }/publish/${item.status !== LIVE ? "false" : "true"}`}
                           className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 rounded cursor-pointer"
                         >
                           View
