@@ -4,10 +4,14 @@ import RenderBarChart from "../component/barChart"
 import { useNavigate } from "react-router-dom"
 import { AuthorApiData } from "../contextApi/author/authorContextApi"
 import { CreationApiData } from "../contextApi/creation/creationContextApi"
+import { SubscriptionApiData } from "../contextApi/subscription/subscriptionContextApi"
+import { CommentApiData } from "../contextApi/comment/commentContextApi"
 import SubmitBtn from "../component/submitBtn"
 
 const AuthorHome = () => {
   const { authorInfo } = useContext(AuthorApiData)
+  const { noOfAuthorSubscription } = useContext(SubscriptionApiData)
+  const { noOfAuthorComment } = useContext(CommentApiData)
   const { noOfBooksPublished, noOfBooksNotPublished } =
     useContext(CreationApiData)
   const navigate = useNavigate()
@@ -39,10 +43,18 @@ const AuthorHome = () => {
           />
         </div>
         <div className="w-1/4 mx-2">
-          <DashItemCard title={"Subscribers"} link={"liveBooks"} qty={"12"} />
+          <DashItemCard
+            title={"Subscribers"}
+            link={"authorSubscription"}
+            qty={noOfAuthorSubscription}
+          />
         </div>
         <div className="w-1/4 mx-2">
-          <DashItemCard title={"Comments"} link={"comments"} qty={"12"} />
+          <DashItemCard
+            title={"Comments"}
+            link={"authorComment"}
+            qty={noOfAuthorComment}
+          />
         </div>
       </div>
       <div className="flex mt-20">

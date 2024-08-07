@@ -4,6 +4,8 @@ import { Outlet } from "react-router-dom"
 import { AuthApiData } from "../contextApi/auth/authContextApi"
 import { CreationApiData } from "../contextApi/creation/creationContextApi"
 import { AuthorApiData } from "../contextApi/author/authorContextApi"
+import { SubscriptionApiData } from "../contextApi/subscription/subscriptionContextApi"
+import { CommentApiData } from "../contextApi/comment/commentContextApi"
 import AuthorSidebar from "../container/authorSideBar"
 import Navbar from "../component/navbar"
 
@@ -12,6 +14,8 @@ const AuthorDashboard = () => {
     useContext(AuthApiData)
   const { processCountBooksPublished, processCountBooksNotPublished } =
     useContext(CreationApiData)
+  const { processCountAuthorSubscription } = useContext(SubscriptionApiData)
+  const { processCountAuthorComment } = useContext(CommentApiData)
   const {
     authorRole,
     processGetAuthorInfo,
@@ -30,6 +34,8 @@ const AuthorDashboard = () => {
         // console.log(userAuthorProfile)
         processCountBooksPublished(userProfile?.id || userAuthorProfile?.id)
         processCountBooksNotPublished(userProfile?.id || userAuthorProfile?.id)
+        processCountAuthorSubscription(userProfile?.id || userAuthorProfile?.id)
+        processCountAuthorComment(userProfile?.id || userAuthorProfile?.id)
       } else {
         navigate("/")
       }

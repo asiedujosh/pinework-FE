@@ -19,6 +19,10 @@ const StudentHome = React.lazy(() => import("./pages/studentHome"))
 const EditBook = React.lazy(() => import("./pages/editBook"))
 const AuthorHome = React.lazy(() => import("./pages/authorHome"))
 const AuthorBooks = React.lazy(() => import("./pages/authorBooks"))
+const AuthorSubscription = React.lazy(() =>
+  import("./pages/authorSubscription")
+)
+const AuthorComment = React.lazy(() => import("./pages/authorComment"))
 const AuthorPublish = React.lazy(() => import("./pages/authorPublishBook"))
 const CreateBook = React.lazy(() => import("./pages/createBook"))
 const CreateQuestion = React.lazy(() => import("./pages/createQuestion"))
@@ -160,6 +164,22 @@ function App() {
             element={
               <React.Suspense fallback={<div>Loading...</div>}>
                 <AuthorPublish />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="authorSubscription"
+            element={
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <AuthorSubscription />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="authorComment"
+            element={
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <AuthorComment />
               </React.Suspense>
             }
           />
